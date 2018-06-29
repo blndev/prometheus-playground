@@ -9,6 +9,10 @@ services:
     volumes:
       - ./prometheus/etc/prometheus:/etc/prometheus
       - ./prometheus/prometheus:/prometheus
+    links:
+      - node1
+      - node2
+
   grafana:
     user: $UID
     image: grafana/grafana:latest
@@ -30,3 +34,17 @@ services:
       - GF_ANALYTICS_reporting_enabled=false
       - GF_SMTP_enabled=false
       - GF_SMTP_host=postfix
+
+  node1:
+      user: $UID
+      image: prom/node-exporter:latest
+      #ports:
+      #  - "9100:9100"
+  node2:
+      user: $UID
+      image: prom/node-exporter:latest
+      #ports:
+      #  - "9100:9100"
+          #volumes:
+          #- ./prometheus/etc/prometheus:/etc/prometheus
+          #- ./prometheus/prometheus:/prometheus
