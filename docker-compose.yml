@@ -38,13 +38,16 @@ services:
   node1:
       user: $UID
       image: prom/node-exporter:latest
-      #ports:
-      #  - "9100:9100"
+      volumes:
+        - ./node1/import:/import:ro
+
   node2:
       user: $UID
-      image: prom/node-exporter:latest
+      image:  quay.io/prometheus/node-exporter:latest
       #ports:
       #  - "9100:9100"
           #volumes:
           #- ./prometheus/etc/prometheus:/etc/prometheus
           #- ./prometheus/prometheus:/prometheus
+
+#next: docker pull prom/blackbox-exporter
