@@ -21,7 +21,7 @@ services:
       - ./grafana/var/lib/grafana:/var/lib/grafana
       - ./grafana/data:/data
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-azure-monitor-datasource, grafana-kubernetes-app
       - GF_PATH_DATA=/data
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
