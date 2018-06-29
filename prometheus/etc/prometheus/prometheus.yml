@@ -28,10 +28,11 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9090']
 
-  - job_name: 'node-1'
+  - job_name: 'simple nodes'
     static_configs:
     - targets: ['node1:9100']
-
-  - job_name: 'node-2'
-    static_configs:
     - targets: ['node2:9100']
+
+  - job_name: 'localhost-mapper'
+    static_configs:
+    - targets: ['node-localmetrics:9100']
