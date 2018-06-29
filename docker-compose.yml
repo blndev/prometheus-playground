@@ -6,14 +6,23 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/etc/prometheus
-      - ./data/prometheus:/prometheus
+      - ./prometheus/etc/prometheus:/etc/prometheus
+      - ./prometheus/prometheus:/prometheus
   grafana:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
     volumes:
-      - ./data/grafana:/data
+      - ./grafana/etc/grafana:/etc/grafana
+      - ./grafana/var/lib/grafana:/var/lib/grafana
+      - ./grafana/data:/data
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
       - GF_PATH_DATA=/data
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_allow_sign_up=true
+      - GF_USERS_allow_org_create=true
+      - GF_ANALYTICS_reporting_enabled=false
+      - GF_SMTP_enabled=false
+      - GF_SMTP_host=postfix
