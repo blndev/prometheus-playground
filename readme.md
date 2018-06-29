@@ -28,6 +28,9 @@ docker-copmpose up
 Now you can open your browser and go to http://localhost:3000 to reach a
 preconfigured grafana instance.
 
+To see how Prometheus is performing, you can use this Dashboard: http://localhost:3000/d/6skUaNvik/prometheus-2-0-stats?refresh=1m&orgId=1
+
+
 Additional Services:
 * http://localhost:9000/ to reach Prometheus
 * http://localhost:9100/metrics to reach Node 1
