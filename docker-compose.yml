@@ -13,4 +13,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./data:/data/db
+      - ./data/grafana:/data
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_PATH_DATA=/data
