@@ -2,6 +2,7 @@ version: '2'
 
 services:
   prometheus:
+    user: $UID
     image: prom/prometheus:latest
     ports:
       - "9090:9090"
@@ -9,9 +10,12 @@ services:
       - ./prometheus/etc/prometheus:/etc/prometheus
       - ./prometheus/prometheus:/prometheus
   grafana:
+    user: $UID
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    links:
+      - prometheus
     volumes:
       - ./grafana/etc/grafana:/etc/grafana
       - ./grafana/var/lib/grafana:/var/lib/grafana

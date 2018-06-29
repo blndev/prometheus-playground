@@ -16,9 +16,12 @@ The Data restists in the container so that when you throw a container away, data
 are lost.
 
 ### Start
-The following command will start the environment:
+The following command will check and start the environment:
 ````bash
-docker-copmpose up metrics-stack.yml
+#check configuration files
+docker-compose config
+# start the services
+docker-copmpose up
 ````
 
 ### Play
@@ -35,20 +38,36 @@ To reload a Prometheus configuration, please use teh folowing command:
 curl -X POST http://localhost:9090/-/reload
 ```
 
+To interact with the container use
+```bash
+$ docker-compose exec -u=$UID grafana bash
+```
+
 #### Reference Documentation
 
-Prometheus
+#### Prometheus
 https://prometheus.io/docs/
 https://prometheus.io/docs/prometheus/latest/querying/examples/
 
-Grafana
+##### Grafana
 http://docs.grafana.org/
 
+Configuration Values
+http://docs.grafana.org/installation/configuration/
 
 ### Stop
 
+To set teh containers to pause use:
+```bash
+docker-compose stop
+```
+Restart can be done by using the "start" command.
+
 
 ### Delete
+```bash
+docker-compose rm -f
+```
 
 ## Planned enhancements
 Having an SMTP Server for receiving emails / alerts
