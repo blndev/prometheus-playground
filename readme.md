@@ -30,10 +30,25 @@ Additional Services:
 * http://localhost:9100/metrics to reach Node 1
 * http://localhost:9100/metrics to reach Node 2
 
+To reload a Prometheus configuration, please use teh folowing command:
+```bash
+curl -X POST http://localhost:9090/-/reload
+```
+
+#### Reference Documentation
+
+Prometheus
+https://prometheus.io/docs/
+https://prometheus.io/docs/prometheus/latest/querying/examples/
+
+Grafana
+http://docs.grafana.org/
+
+
 ### Stop
 
 
 ### Delete
 
 ## Planned enhancements
-Having an SMTP Server for receiving emails / alerts 
+Having an SMTP Server for receiving emails / alerts
