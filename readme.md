@@ -9,12 +9,33 @@ by hand again and again.
 * docker
 * docker-compose
 
+## General
+
+### Node Exporter
+We configured three node exporter. Node0, Node1, Node3. Node0 is connected to your locale filesystem. Node1 and Node2 jsut running in docker and having the text exporter enabled for folder /node1/import and /node2/import.
+Every file you put there with the extension .prom will be taken and published to prometheus.
+
+### Prometheus
+This service is connected to all node exporters and to the Alertmanager.
+Alerts are configured in /etc/prometheus/alertrules/* . The rule - files must be enabled in teh prometheus.yml on folder higher.
+
+If an alert goes to a hard state. it will be send to the Alertmanager wich than can group and forward them.
+
+### Alertmanager
+The Alertmanager is configured to be triggered from prometheus.
+
+### Grafana
+Grafana is configured to load the data from prometheus.
+In the existing config database the datasource is already configured.
+When you delete the database and start the playground again, an empty db will be created. Then you have to configure prometheus as http://prometheus:9090/ as datasource.
+
+
 ## Usage
 As it is a playground, all of the configurations are stored outside of the
 containers.
 The measured data and modified files for plugins etc are mostly stored also in
 the in the repository folders, but they are not tracked on git. Just remove them
-or make a fresh checkout to reset your playground
+or make a fresh checkout to reset your playground.
 
 ### Start
 The following command will check and start the environment:
@@ -36,8 +57,8 @@ To see how Prometheus is performing, you can use this Dashboard: http://localhos
 
 Additional Services:
 * http://localhost:9000/ to reach Prometheus
-* http://localhost:9100/metrics to reach Node 1
-* http://localhost:9100/metrics to reach Node 2
+* http://localhost:9100/metrics to reach Node 0 with local data export
+* http://localhost:9093/#/status for the alert manager
 
 To reload a Prometheus configuration, please use teh folowing command:
 ```bash
@@ -48,6 +69,11 @@ To interact with the container use
 ```bash
 $ docker-compose exec -u=$UID grafana bash
 ```
+
+#### Simulate alertmanagers
+
+You can simply create an alert by shuting down one of the exporters like node 2
+with ```docker-compose stop node2```
 
 #### Reference Documentation
 

@@ -15,6 +15,7 @@ services:
       - node0
       - node1
       - node2
+      - alertmanager
 
   grafana:
     user: $PGUSER
@@ -47,7 +48,8 @@ services:
         - /proc:/host/proc:ro
         - /sys:/host/sys:ro
         - /:/rootfs:ro
-      #net: host
+      ports:
+        - "9100:9100"
       command:
         - '--path.procfs=/host/proc'
         - '--path.sysfs=/host/sys'
@@ -68,6 +70,17 @@ services:
         - ./node2/import:/import:ro
       command:
         - '--collector.textfile.directory=/import'
+
+  alertmanager:
+      user: $PGUSER
+      image: prom/alertmanager:latest
+      volumes:
+        - ./alertmanager/etc/alertmanager:/etc/alertmanager:rw
+      ports:
+        - "5001:5001"
+        - "9093:9093"
+            #command:
+        #- '--config.file==/etc/alertmanager_ext/alertmanager.yml'
 
 
 #next: docker pull prom/blackbox-exporter
