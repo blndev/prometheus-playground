@@ -29,6 +29,12 @@ Grafana is configured to load the data from prometheus.
 In the existing config database the datasource is already configured.
 When you delete the database and start the playground again, an empty db will be created. Then you have to configure prometheus as http://prometheus:9090/ as datasource.
 
+### Mailserver
+To check notifications we have installed GreenMail as Mail Server (mailserver) and Roundcube as Frontend (Webmailer). The Mailserver is listen on POrt 3025 (SMTP and 3143 for IMAP). The Webmailer can be reached on Port 9080 via the Browser.
+The Login name is the username you specified in the notification.
+The Password is anything you type in.
+
+In defaullt configuration you will receive notifications on *admin@playground.local* Please use that for login to see the messages.
 
 ## Usage
 As it is a playground, all of the configurations are stored outside of the

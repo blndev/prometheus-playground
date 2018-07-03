@@ -84,11 +84,22 @@ services:
         - mailserver
 
   mailserver:
-      #user: $PGUSER - do not use that because listen on 25 needs root
-      image: djfarrelly/maildev
-      ports:
-        - "9080:80"
-      volumes:
-        - ./mailserver:/tmp/maildev:rw
+    image: greenmail/standalone:1.6.0-SNAPSHOT
+    environment:
+    # Enable GreenMail verbose mode
+    - GREENMAIL_OPTS=-Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled
+  roundcube:
+    image: roundcube/roundcubemail
+    ports:
+    - "9080:80"
+    links:
+      - mailserver
+    environment:
+      - ROUNDCUBEMAIL_DEFAULT_HOST=mailserver
+      - ROUNDCUBEMAIL_DEFAULT_PORT=3143
+      - ROUNDCUBEMAIL_SMTP_SERVER=mailserver
+      - ROUNDCUBEMAIL_SMTP_PORT=3025
+    #volumes:
+    #    - ./mailserver:/tmp/maildev:rw
 
 #next: docker pull prom/blackbox-exporter
