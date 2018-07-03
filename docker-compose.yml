@@ -9,7 +9,10 @@ services:
     volumes:
       - ./prometheus/etc/prometheus:/etc/prometheus
       - ./prometheus/prometheus:/prometheus
+    #command:
+    #  - '--web.enable-lifecycle'
     links:
+      - node0
       - node1
       - node2
 
@@ -44,6 +47,22 @@ services:
   node2:
       user: $UID
       image:  quay.io/prometheus/node-exporter:latest
+
+  node0:
+      user: $UID
+      image: quay.io/prometheus/node-exporter:latest
+      privileged: true
+      restart: unless-stopped
+      volumes:
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /:/rootfs:ro
+      #net: host
+      command:
+        - '--path.procfs=/host/proc'
+        - '--path.sysfs=/host/sys'
+        - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+
       #ports:
       #  - "9100:9100"
           #volumes:
