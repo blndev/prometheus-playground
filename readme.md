@@ -60,7 +60,7 @@ http://docs.grafana.org/installation/configuration/
 
 ### Stop
 
-To set teh containers to pause use:
+To set the containers to pause use:
 ```bash
 docker-compose stop
 ```
@@ -69,7 +69,10 @@ Restart can be done by using the "start" command.
 
 ### Delete
 ```bash
+# remove a stopped environment
 docker-compose rm -f
+# stop and remove
+docker-compose down
 ```
 
 ## Planned enhancements
