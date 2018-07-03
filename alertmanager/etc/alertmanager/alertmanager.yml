@@ -28,7 +28,8 @@ route:
 
   # If an alert has successfully been sent, wait 'repeat_interval' to
   # resend them.
-  repeat_interval: 3h
+  # Should be 3h for production
+  repeat_interval: 15m
 
   # All the above attributes are inherited by all child routes and can
   # overwritten on each.
