@@ -88,5 +88,7 @@ services:
       image: djfarrelly/maildev
       ports:
         - "9080:80"
+      volumes:
+        - ./mailserver:/tmp/maildev:rw
 
 #next: docker pull prom/blackbox-exporter

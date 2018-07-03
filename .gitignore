@@ -2,7 +2,7 @@ grafana/var/lib/grafana/sessions/*
 grafana/var/lib/grafana/plugins/*
 grafana/var/lib/grafana/png/*
 prometheus/prometheus/*
-
+mailserver/
 *.bak
 *.tmp
 *.copy
