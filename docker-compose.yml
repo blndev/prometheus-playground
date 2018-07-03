@@ -24,6 +24,8 @@ services:
       - "3000:3000"
     links:
       - prometheus
+      - mailserver
+
     volumes:
       - ./grafana/etc/grafana:/etc/grafana
       - ./grafana/var/lib/grafana:/var/lib/grafana
@@ -79,8 +81,13 @@ services:
       ports:
         - "5001:5001"
         - "9093:9093"
-            #command:
-        #- '--config.file==/etc/alertmanager_ext/alertmanager.yml'
+      links:
+        - mailserver
 
+  mailserver:
+      #user: $PGUSER - do not use that because listen on 25 needs root
+      image: djfarrelly/maildev
+      ports:
+        - "9080:80"
 
 #next: docker pull prom/blackbox-exporter

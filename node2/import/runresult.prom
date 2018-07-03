@@ -5,6 +5,6 @@ script_returnvalue{script="search.py", host="node2"} 0
 script_returnvalue{script="fail.py", host="node2"} 1
 # HELP script_exec_time_miliseconds Time in miliseconds how long the script was running.
 # TYPE script_exec_time_miliseconds gauge
-script_exec_time_miliseconds{script="getvalue.py", host="node2"} 35
-script_exec_time_miliseconds{script="search.py", host="node2"} 485
-script_exec_time_miliseconds{script="fail.py", host="node2"} 12675
+script_exec_time_miliseconds{script="getvalue.py", host="node2"} 4335
+script_exec_time_miliseconds{script="search.py", host="node2"} 8485
+script_exec_time_miliseconds{script="fail.py", host="node2"} 16675

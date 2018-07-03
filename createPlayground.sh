@@ -8,6 +8,8 @@ sleep 5
 # show important logs
 docker-compose logs prometheus
 docker-compose logs grafana
+docker-compose logs alertmanager
+docker-compose logs mailserver
 
 # show container status
 docker-compose ps

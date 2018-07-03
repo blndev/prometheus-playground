@@ -1,5 +1,7 @@
 global:
   resolve_timeout: 5m
+  smtp_smarthost: 'mailserver:25'
+  smtp_from: 'alertmanager@playground.local'
 
 route:
   group_by: ['alertname']
