@@ -35,4 +35,4 @@ scrape_configs:
 
   - job_name: 'localhost-mapper'
     static_configs:
-    - targets: ['node-localmetrics:9100']
+    - targets: ['node0:9100']

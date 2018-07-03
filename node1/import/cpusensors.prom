@@ -1,0 +1,5 @@
+# HELP CPU_Sensors_Temp Shows the temperature of the CPUs.
+# TYPE CPU_Sensors_Temp gauge
+CPU_Sensors_Temp{core="core1",version="1.0"} 42
+CPU_Sensors_Temp{core="core2",version="1.0"} 73
+CPU_Sensors_Temp{core="core3",version="1.0"} 40
