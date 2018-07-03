@@ -2,7 +2,7 @@ version: '2'
 
 services:
   prometheus:
-    user: $UID
+    user: $PGUSER
     image: prom/prometheus:latest
     ports:
       - "9090:9090"
@@ -17,7 +17,7 @@ services:
       - node2
 
   grafana:
-    user: $UID
+    user: $PGUSER
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
@@ -39,7 +39,7 @@ services:
       - GF_SMTP_host=postfix
 
   node0:
-      user: $UID
+      user: $PGUSER
       image: quay.io/prometheus/node-exporter:latest
       privileged: false
       restart: unless-stopped
@@ -54,7 +54,7 @@ services:
         - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
 
   node1:
-      user: $UID
+      user: $PGUSER
       image: prom/node-exporter:latest
       volumes:
         - ./node1/import:/import:ro
@@ -62,7 +62,7 @@ services:
         - '--collector.textfile.directory=/import'
 
   node2:
-      user: $UID
+      user: $PGUSER
       image:  quay.io/prometheus/node-exporter:latest
 
 

@@ -12,14 +12,17 @@ by hand again and again.
 ## Usage
 As it is a playground, all of the configurations are stored outside of the
 containers.
-The Data restists in the container so that when you throw a container away, data
-are lost.
+The measured data and modified files for plugins etc are mostly stored also in
+the in the repository folders, but they are not tracked on git. Just remove them
+or make a fresh checkout to reset your playground
 
 ### Start
 The following command will check and start the environment:
 ````bash
 #check configuration files
 docker-compose config
+# before the first start you should export the UID to get write access on fs
+export PGUSER=$UID
 # start the services
 docker-copmpose up
 ````
