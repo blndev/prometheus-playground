@@ -38,20 +38,10 @@ services:
       - GF_SMTP_enabled=false
       - GF_SMTP_host=postfix
 
-  node1:
-      user: $UID
-      image: prom/node-exporter:latest
-      volumes:
-        - ./node1/import:/import:ro
-
-  node2:
-      user: $UID
-      image:  quay.io/prometheus/node-exporter:latest
-
   node0:
       user: $UID
       image: quay.io/prometheus/node-exporter:latest
-      privileged: true
+      privileged: false
       restart: unless-stopped
       volumes:
         - /proc:/host/proc:ro
@@ -63,10 +53,18 @@ services:
         - '--path.sysfs=/host/sys'
         - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
 
-      #ports:
-      #  - "9100:9100"
-          #volumes:
-          #- ./prometheus/etc/prometheus:/etc/prometheus
-          #- ./prometheus/prometheus:/prometheus
+  node1:
+      user: $UID
+      image: prom/node-exporter:latest
+      volumes:
+        - ./node1/import:/import:ro
+      command:
+        - '--collector.textfile.directory=/import'
+
+  node2:
+      user: $UID
+      image:  quay.io/prometheus/node-exporter:latest
+
+
 
 #next: docker pull prom/blackbox-exporter
