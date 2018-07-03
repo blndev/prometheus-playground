@@ -11,7 +11,8 @@ docker-compose logs grafana
 docker-compose logs alertmanager
 docker-compose logs mailserver
 
-# show container status
-docker-compose ps
 
 echo "Open browser at http://localhost:3000/"
+
+# show container status
+watch docker-compose ps
