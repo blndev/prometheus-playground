@@ -15,6 +15,7 @@ services:
       - node0
       - node1
       - node2
+      - alertmanager
 
   grafana:
     user: $PGUSER
@@ -68,6 +69,14 @@ services:
         - ./node2/import:/import:ro
       command:
         - '--collector.textfile.directory=/import'
+
+  alertmanager:
+      user: $PGUSER
+      image: prom/alertmanager:latest
+      volumes:
+        - ./alertmanager/etc/alertmanager:/etc/alertmanager_ext:rw
+      #command:
+        #- '--config.file==/etc/alertmanager_ext/config.yml'
 
 
 #next: docker pull prom/blackbox-exporter
