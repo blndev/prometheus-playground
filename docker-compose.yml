@@ -64,7 +64,10 @@ services:
   node2:
       user: $PGUSER
       image:  quay.io/prometheus/node-exporter:latest
-
+      volumes:
+        - ./node2/import:/import:ro
+      command:
+        - '--collector.textfile.directory=/import'
 
 
 #next: docker pull prom/blackbox-exporter
