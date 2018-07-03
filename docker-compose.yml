@@ -79,7 +79,6 @@ services:
       volumes:
         - ./alertmanager/etc/alertmanager:/etc/alertmanager:rw
       ports:
-        - "5001:5001"
         - "9093:9093"
       links:
         - mailserver
