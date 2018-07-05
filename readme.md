@@ -54,6 +54,9 @@ export PGUSER=$UID
 docker-copmpose up
 ````
 
+As alternate (and simpler) way is to use the ``createPlayground.sh`` script,
+which does the same.
+
 ### Play
 Now you can open your browser and go to http://localhost:3000 to reach a
 preconfigured grafana instance.
