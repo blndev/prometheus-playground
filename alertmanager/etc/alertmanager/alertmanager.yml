@@ -1,6 +1,6 @@
 global:
   resolve_timeout: 5m
-  smtp_smarthost: 'mailserver:25'
+  smtp_smarthost: 'mailserver:3025'
   smtp_from: 'alertmanager@playground.local'
 
 # The root route on which each incoming alert enters.
@@ -97,11 +97,11 @@ receivers:
   - url: 'http://127.0.0.1:5001/'
 - name: 'team-admin-mails'
   email_configs:
-  - to: 'team-admins@playground.local'
+  - to: 'admin@playground.local'
 
 - name: 'team-admin-slack'
   email_configs:
-  - to: 'team-admins@playground.local'
+  - to: 'admin@playground.local'
   pagerduty_configs:
   - service_key: <team-X-key>
 
