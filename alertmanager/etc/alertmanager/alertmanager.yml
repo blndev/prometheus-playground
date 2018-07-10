@@ -117,10 +117,7 @@ receivers:
     send_resolved: true
     headers:
       Subject: 'custom {{ template "email.default.subject" . }}'
-      #- headers:
-      # From: alertmanager@playground.local
-      #Subject: 'Custom {{ template "email.default.subject" . }}'
-#  - html: 'Custom - Text - {{ template "email.default.html" . }}'
+    html: 'Custom - Text - {{ template "email.default.html" . }}'
 
 # sample for alert to different channcels
 - name: 'team-24x7-ops'
