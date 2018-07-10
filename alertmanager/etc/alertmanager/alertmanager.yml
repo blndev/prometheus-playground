@@ -77,6 +77,8 @@ route:
     receiver: team-DB-mails
     # Also group alerts by affected database.
     group_by: [alertname, cluster, database]
+    # continue to check other rules instead of stopping after match
+    continue: true
 
     routes:
     - match:
