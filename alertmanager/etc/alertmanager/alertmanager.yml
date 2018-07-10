@@ -1,15 +1,16 @@
 global:
   resolve_timeout: 5m
   smtp_smarthost: 'mailserver:3025'
-  smtp_from: 'alertmanager@playground.local'
   smtp_require_tls: false
+  smtp_from: 'donotreply@alertmanager.local'
 
 # The root route on which each incoming alert enters.
 route:
   # The root route must not have any matchers as it is the entry point for
   # all alerts. It needs to have a receiver configured so alerts that do not
   # match any of the sub-routes are sent to someone.
-  receiver: 'team-admin-mails'
+  #receiver: 'team-admin-mails'
+  receiver: 'custom-mail'
 
   # The labels by which incoming alerts are grouped together. For example,
   # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
@@ -104,10 +105,24 @@ receivers:
 - name: 'web.hook'
   webhook_configs:
   - url: 'http://127.0.0.1:5001/'
+
 - name: 'team-admin-mails'
   email_configs:
   - to: 'admin@playground.local'
 
+# sample for a custom mail configuration
+- name: 'custom-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+    send_resolved: true
+    headers:
+      Subject: 'custom {{ template "email.default.subject" . }}'
+      #- headers:
+      # From: alertmanager@playground.local
+      #Subject: 'Custom {{ template "email.default.subject" . }}'
+#  - html: 'Custom - Text - {{ template "email.default.html" . }}'
+
+# sample for alert to different channcels
 - name: 'team-24x7-ops'
   email_configs:
   - to: 'admin@playground.local'
