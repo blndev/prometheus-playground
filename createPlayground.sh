@@ -1,6 +1,9 @@
 # setting PGUSER to current user is, which allows to write to the local file system
 export PGUSER=$UID
 
+# checking configuration
+docker-compose config
+
 # create or update containers and network and starting detached
 docker-compose up -d
 sleep 5
