@@ -2,6 +2,7 @@ global:
   resolve_timeout: 5m
   smtp_smarthost: 'mailserver:3025'
   smtp_from: 'alertmanager@playground.local'
+  smtp_require_tls: false
 
 # The root route on which each incoming alert enters.
 route:
@@ -38,6 +39,7 @@ route:
   routes:
   # This routes performs a regular expression match on alert labels to
   # catch alerts that are related to a list of services.
+  # rule 1.0
   - match_re:
       service: ^(foo1|foo2|baz)$
     receiver: team-admin-mails
@@ -45,15 +47,21 @@ route:
     # The service has a sub-route for critical alerts, any alerts
     # that do not match, i.e. severity != critical, fall-back to the
     # parent node and are sent to 'team-X-mails'
+    # rule 1.1
     routes:
     - match:
         severity: critical
-      receiver: team-admin-slack
+      receiver: team-24x7-ops
 
+  # rule for all messages which have tag "service==files"
+  # rule 2.0
   - match:
       service: files
     receiver: web.hook
 
+    # rule for all messages which have tag "service==files" and
+    # severity==critical
+    # rule 2.1
     routes:
     - match:
         severity: critical
@@ -61,6 +69,7 @@ route:
 
   # This route handles all alerts coming from a database service. If there's
   # no team to handle it, it defaults to the DB team.
+  # rule 3.0
   - match:
       service: database
 
@@ -99,7 +108,7 @@ receivers:
   email_configs:
   - to: 'admin@playground.local'
 
-- name: 'team-admin-slack'
+- name: 'team-24x7-ops'
   email_configs:
   - to: 'admin@playground.local'
   pagerduty_configs:
