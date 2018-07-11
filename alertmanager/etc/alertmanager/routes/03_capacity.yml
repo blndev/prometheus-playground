@@ -1,0 +1,8 @@
+    routes:
+    - match:
+        owner: team-X
+      receiver: team-admin-mails
+
+    - match:
+        owner: team-Y
+      receiver: team-dev-mails
