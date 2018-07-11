@@ -4,6 +4,11 @@ export PGUSER=$UID
 # checking configuration
 docker-compose config
 
+# concat alertmanager configuration
+cd alertmanager/etc/alertmanager
+source createConfig.sh
+cd ../../..
+
 # create or update containers and network and starting detached
 docker-compose up -d
 sleep 5
