@@ -28,6 +28,8 @@ To fire an alert just stop node 2 for some minutes.
 The Alertmanager is configured to be triggered from prometheus.
 The configuration can't be splitted to multiple files by default. To work more efficient in teams it make sense to separate the files and concatinate them in a pipeline or use tools like ansible.
 
+The Script ``./alertmanager/testalerts.sh`` is firing a set of alerts which are handled by the different matchers and routes of the alert manager.
+
 #### Notification templates
 The Templates are based on Go Text Templating Engine.
 These templates are supporting conditions and loops.
