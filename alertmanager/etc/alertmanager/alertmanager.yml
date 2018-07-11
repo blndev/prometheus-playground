@@ -4,6 +4,9 @@ global:
   smtp_require_tls: false
   smtp_from: 'donotreply@alertmanager.local'
 
+templates:
+  - /etc/alertmanager/templates/*.tmpl
+
 # The root route on which each incoming alert enters.
 route:
   # The root route must not have any matchers as it is the entry point for
@@ -113,13 +116,24 @@ receivers:
   - to: 'admin@playground.local'
 
 # sample for a custom mail configuration
+# detaile here: https://prometheus.io/docs/alerting/configuration/#email_config
 - name: 'custom-mail'
   email_configs:
   - to: 'admin@playground.local'
     send_resolved: true
     headers:
       Subject: 'custom {{ template "email.default.subject" . }}'
-    html: 'Custom - Text - {{ template "email.default.html" . }}'
+    html: '{{ template "mail.body.html.helloworld" . }}'
+    #html: 'Custom - Text - {{ template "email.default.html" . }}'
+
+# detaile here: https://prometheus.io/docs/alerting/configuration/#email_config
+- name: 'custom-text-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+    send_resolved: true
+    headers:
+      Subject: 'custom {{ template "email.default.subject" . }}'
+    text: 'This is a custom Text Mail \n {{ template "email.default.text" . }}'
 
 # sample for alert to different channcels
 - name: 'team-24x7-ops'
