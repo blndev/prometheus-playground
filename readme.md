@@ -30,6 +30,9 @@ The configuration can't be splitted to multiple files by default. To work more e
 
 The Script ``./alertmanager/testalerts.sh`` is firing a set of alerts which are handled by the different matchers and routes of the alert manager.
 
+When you want to play only with these test alerts, then you can stop the nodes0-3,
+prometheus and grafana. The Alertmanager and the Mailserver + WebUI is suggested for such tests.
+
 #### Notification templates
 The Templates are based on Go Text Templating Engine.
 These templates are supporting conditions and loops.
@@ -84,15 +87,16 @@ Additional Services:
 * http://localhost:9100/metrics to reach Node 0 with local data export
 * http://localhost:9093/#/status for the alert manager
 
-To reload a Prometheus configuration, please use teh folowing command:
+To reload a Prometheus configuration, please use the folowing command:
 ```bash
-curl -X POST http://localhost:9090/-/reload
+docker-compose restart prometheus
 ```
 
 To interact with the container use
 ```bash
 $ docker-compose exec -u=$UID grafana bash
 ```
+Note: Some Containers supports only sh instead of bash.
 
 #### Simulate alertmanagers
 
