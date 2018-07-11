@@ -17,12 +17,25 @@ Every file you put there with the extension .prom will be taken and published to
 
 ### Prometheus
 This service is connected to all node exporters and to the Alertmanager.
-Alerts are configured in /etc/prometheus/alertrules/* . The rule - files must be enabled in teh prometheus.yml on folder higher.
+Alerts are configured in /etc/prometheus/alertrules/* . The rule - files must be enabled in the prometheus.yml on folder higher.
 
 If an alert goes to a hard state. it will be send to the Alertmanager wich than can group and forward them.
 
+To fire an alert just stop node 2 for some minutes.
+``docker-compose stop node2``
+
 ### Alertmanager
 The Alertmanager is configured to be triggered from prometheus.
+The configuration can't be splitted to multiple files by default. To work more efficient in teams it make sense to separate the files and concatinate them in a pipeline or use tools like ansible.
+
+#### Notification templates
+The Templates are based on Go Text Templating Engine.
+These templates are supporting conditions and loops.
+
+You will find more details here: https://godoc.org/text/template
+
+The default templates are compiled into the sources, but they can be found here https://github.com/prometheus/alertmanager/blob/master/template/default.tmpl
+
 
 ### Grafana
 Grafana is configured to load the data from prometheus.
