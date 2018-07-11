@@ -1,3 +1,7 @@
+  - match:
+      service: whatever
+    receiver: web.hook
+
     routes:
     - match:
         owner: team-X
