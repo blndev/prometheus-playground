@@ -3,7 +3,8 @@ alerts1='[
     "labels": {
        "alertname": "DiskRunningFull",
        "dev": "sda1",
-       "instance": "example1"
+       "instance": "example1",
+       "squad": "storage"
      },
      "annotations": {
         "info": "The disk sda1 is running full",
@@ -14,7 +15,8 @@ alerts1='[
     "labels": {
        "alertname": "DiskRunningFull",
        "dev": "sda2",
-       "instance": "example1"
+       "instance": "example1",
+       "squad": "storage"
      },
      "annotations": {
         "info": "The disk sda2 is running full",
@@ -26,7 +28,8 @@ alerts1='[
     "labels": {
        "alertname": "DiskRunningFull",
        "dev": "sda1",
-       "instance": "example2"
+       "instance": "example2",
+       "squad": "storage"
      },
      "annotations": {
         "info": "The disk sda1 is running full",
@@ -37,7 +40,8 @@ alerts1='[
     "labels": {
        "alertname": "DiskRunningFull",
        "dev": "sdb2",
-       "instance": "example2"
+       "instance": "example2",
+       "squad": "storage"
      },
      "annotations": {
         "info": "The disk sdb2 is running full",
@@ -49,7 +53,8 @@ alerts1='[
        "alertname": "DiskRunningFull",
        "dev": "sda1",
        "instance": "example3",
-       "severity": "critical"
+       "severity": "critical",
+       "squad": "storage"
      }
   },
   {
@@ -57,7 +62,8 @@ alerts1='[
        "alertname": "DiskRunningFull",
        "dev": "sda1",
        "instance": "example3",
-       "severity": "warning"
+       "severity": "warning",
+       "squad": "storage"
      }
   }
 ]'

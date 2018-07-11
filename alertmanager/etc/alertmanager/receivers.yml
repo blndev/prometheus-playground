@@ -8,6 +8,10 @@ receivers:
   email_configs:
   - to: 'admin@playground.local'
 
+- name: 'admin-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+
 # sample for a custom mail configuration
 # detaile here: https://prometheus.io/docs/alerting/configuration/#email_config
 - name: 'custom-mail'
@@ -28,7 +32,7 @@ receivers:
       Subject: 'custom {{ template "email.default.subject" . }}'
     text: 'This is a custom Text Mail \n {{ template "email.default.text" . }}'
 
-# sample for alert to different channcels
+# sample for alert to different channels
 - name: 'team-24x7-ops'
   email_configs:
   - to: 'admin@playground.local'

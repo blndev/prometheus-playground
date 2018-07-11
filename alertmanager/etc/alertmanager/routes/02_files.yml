@@ -1,10 +1,17 @@
-  # rule for all messages which have tag "service==files"
+  # rule for all messages which have tag "squad==storage"
   # rule 2.0
   - match:
-      service: files
+      squad: storage
     receiver: web.hook
+    continue: true
 
-    # rule for all messages which have tag "service==files" and
+  # to call two independent receivers, we need two match handlers with same
+  # condition and a continue expression
+  - match:
+      squad: storage
+    receiver: admin-mail
+
+    # rule for all messages which have tag "squad==storage" and
     # severity==critical
     # rule 2.1
     routes:
