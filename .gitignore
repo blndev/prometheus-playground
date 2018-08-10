@@ -11,7 +11,11 @@ mailserver/
 # concat result
 alertmanager.yml
 
+# Node0 Generated Data
+node0/import/
+
 # Other files
 *.bak
 *.tmp
 *.copy
+
