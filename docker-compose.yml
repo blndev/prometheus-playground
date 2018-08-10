@@ -47,15 +47,19 @@ services:
       privileged: false
       restart: unless-stopped
       volumes:
-        - /proc:/host/proc:ro
-        - /sys:/host/sys:ro
-        - /:/rootfs:ro
+        - ./node0/import:/import:ro
+      #deactivated for windows docker hosts
+      #  - /proc:/host/proc:ro
+      #  - /sys:/host/sys:ro
+      #  - /:/rootfs:ro
       ports:
         - "9100:9100"
       command:
-        - '--path.procfs=/host/proc'
-        - '--path.sysfs=/host/sys'
-        - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+        - '--collector.textfile.directory=/import'
+      # deactivated for windows docker hosts
+      #  - '--path.procfs=/host/proc'
+      #  - '--path.sysfs=/host/sys'
+      #  - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
 
   node1:
       user: $PGUSER
