@@ -1,0 +1,48 @@
+# general receiver configuration
+receivers:
+- name: 'web.hook'
+  webhook_configs:
+  - url: 'http://127.0.0.1:5001/'
+
+- name: 'team-admin-mails'
+  email_configs:
+  - to: 'admin@playground.local'
+
+- name: 'admin-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+
+# sample for a custom mail configuration
+# detaile here: https://prometheus.io/docs/alerting/configuration/#email_config
+- name: 'custom-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+    send_resolved: true
+    headers:
+      Subject: 'custom {{ template "email.default.subject" . }}'
+    html: '{{ template "mail.body.html.helloworld" . }}'
+    #html: 'Custom - Text - {{ template "email.default.html" . }}'
+
+# detaile here: https://prometheus.io/docs/alerting/configuration/#email_config
+- name: 'custom-text-mail'
+  email_configs:
+  - to: 'admin@playground.local'
+    send_resolved: true
+    headers:
+      Subject: 'custom {{ template "email.default.subject" . }}'
+    text: 'This is a custom Text Mail \n {{ template "email.default.text" . }}'
+
+# sample for alert to different channels
+- name: 'team-24x7-ops'
+  email_configs:
+  - to: 'admin@playground.local'
+  pagerduty_configs:
+  - service_key: <team-X-key>
+
+- name: 'team-dev-mails'
+  email_configs:
+  - to: 'team-dev@playground.local'
+
+- name: 'team-DB-mails'
+  email_configs:
+  - to: 'team-dbadmins@playground.local'

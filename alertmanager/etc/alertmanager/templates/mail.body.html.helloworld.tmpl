@@ -1,0 +1,12 @@
+/* Details https://godoc.org/text/template */
+/* See also: https://github.com/prometheus/alertmanager/blob/master/template/default.tmpl */
+
+{{ define "mail.body.html.helloworld" }}
+<h1>Hello World</h1>
+
+An Issue is {{ if eq .Status "firing" }}detected{{else}}resolved{{ end }}
+
+<p>Have a look at this page for details:</p>
+https://sample.playground.local/wiki/alerts/{{ .GroupLabels.app }}/{{ .GroupLabels.alertname }}
+
+{{ end}}

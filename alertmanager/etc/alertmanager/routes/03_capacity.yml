@@ -1,0 +1,12 @@
+  - match:
+      service: whatever
+    receiver: web.hook
+
+    routes:
+    - match:
+        owner: team-X
+      receiver: team-admin-mails
+
+    - match:
+        owner: team-Y
+      receiver: team-dev-mails

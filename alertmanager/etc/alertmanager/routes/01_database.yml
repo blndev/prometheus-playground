@@ -1,0 +1,15 @@
+  # This routes performs a regular expression match on alert labels to
+  # catch alerts that are related to a list of services.
+  # rule 1.0
+  - match_re:
+      service: ^(mysql|mariadb|mssql)$
+    receiver: team-admin-mails
+
+    # The service has a sub-route for critical alerts, any alerts
+    # that do not match, i.e. severity != critical, fall-back to the
+    # parent node and are sent to 'team-X-mails'
+    # rule 1.1
+    routes:
+    - match:
+        severity: critical
+      receiver: team-24x7-ops
