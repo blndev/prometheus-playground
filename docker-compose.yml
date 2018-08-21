@@ -15,6 +15,7 @@ services:
       - node0
       - node1
       - node2
+      - node3
       - alertmanager
 
   grafana:
@@ -82,7 +83,7 @@ services:
       build: ./node3CustomExporter
       privileged: false
       ports:
-        - "9101:8000"
+        - "9101:9100"
 
       
   alertmanager:
