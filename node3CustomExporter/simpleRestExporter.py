@@ -27,4 +27,3 @@ if __name__ == '__main__':
         CPU_TEMP.labels(cpu='vCPU-PYthon', core='02').set(random.random()*100)
         CPU_FANSPEED.labels(cpu='vCPU-PYthon', core='01').set(random.random()*3000)
         CPU_FANSPEED.labels(cpu='vCPU-PYthon', core='02').set(random.random()*3000)
-        #get_value(random.random())
