@@ -11,9 +11,41 @@ by hand again and again.
 
 ## General
 
+This repo contains a playground to evaluate different configs and behaviors of a prometheus based monitoring.
+It uses Prometheus Node Exporter to expose data, Prometheus Server to capture them, Alert Rules in prometheus to define critical states, an Alertmanager to receive these alerts and forward them as mail to a Webmailer.
+In addition there is a Grafana installed and connected as UI / Dashboard service.
+
+Credentials:
+On the WebMailer you can login with any email adress and any password. If there was an email received to this address, you will see it. Default Mail where Notofication are sended to is "admin@playground.local".
+
+On Grafana you can login by default with admin/admin.
+
 ### Node Exporter
-We configured three node exporter. Node0, Node1, Node3. Node0 is connected to your locale filesystem. Node1 and Node2 jsut running in docker and having the text exporter enabled for folder /node1/import and /node2/import.
+We configured four nodes which will export data.Node0, Node1, Node2, Node3. Node0 is connected to your locale filesystem. Node1 and Node2 jsut running in docker and having the text exporter enabled for folder /node1/import and /node2/import. Node3 is a custome metric exporter written in python.
 Every file you put there with the extension .prom will be taken and published to prometheus.
+
+After starting the playground, you can reach node0 via http://localhost:9100/metrics and node3 via http://localhost:9101/metrics.
+Node2 and Node3 are not exposed.
+
+#### Node0 - Localhost Connect
+In the docker-compose file, node0 is prepared to mount local dev and proc folders, to show loacal data. It's commented out to enable the playground also to run on docker for Windows.
+In addition you will find an "import" folder. Just put any *.prom file into it and the node will export it. The python script "consumptionExporter.py" create such an file via the PrometheusClient Libs. Just playaround with it.
+
+#### Node1-Node2 
+These Nodes just running by default. They supporting also the *.prom files in the import directory. I use them to simulate erros like node down by just stopping them
+``docker-compose stop node2`` 
+
+#### Node3 - Custom Exporter
+Instead of Node 0-2, where the iage is downloaded from Internet, the image of Node 3 will be build locally with the command 
+``docker-compose build node3``
+
+This copies the sourcecode of node3 into an image and make it locally available.
+Hint: if you change the source code you must rebuild the image!
+As an enhancement ypu maybe can use a shared folder (volume) for the source code.
+
+Rebuild can be done by the build command above. To get the new image up and running, you must call ``docker-compose up node3`` which will result in a restart with latest image.
+
+
 
 ### Prometheus
 This service is connected to all node exporters and to the Alertmanager.
@@ -30,8 +62,7 @@ The configuration can't be splitted to multiple files by default. To work more e
 
 The Script ``./alertmanager/testalerts.sh`` is firing a set of alerts which are handled by the different matchers and routes of the alert manager.
 
-When you want to play only with these test alerts, then you can stop the nodes0-3,
-prometheus and grafana. The Alertmanager and the Mailserver + WebUI is suggested for such tests.
+When you want to play only with these test alerts, then you can stop the nodes0-3, prometheus and grafana. The Alertmanager and the Mailserver + WebUI is suggested for such tests.
 
 #### Notification templates
 The Templates are based on Go Text Templating Engine.
@@ -85,7 +116,9 @@ To see how Prometheus is performing, you can use this Dashboard: http://localhos
 Additional Services:
 * http://localhost:9000/ to reach Prometheus
 * http://localhost:9100/metrics to reach Node 0 with local data export
+* http://localhost:9101/metrics to reach Node 3
 * http://localhost:9093/#/status for the alert manager
+* http://localhost:9080/ to reach the mailserver
 
 To reload a Prometheus configuration, please use the folowing command:
 ```bash
@@ -133,4 +166,4 @@ docker-compose down
 ```
 
 ## Planned enhancements
-Having an SMTP Server for receiving emails / alerts
+Adding WebHook receiver and Nagios + Graphite

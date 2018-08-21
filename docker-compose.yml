@@ -15,6 +15,7 @@ services:
       - node0
       - node1
       - node2
+      - node3
       - alertmanager
 
   grafana:
@@ -47,15 +48,19 @@ services:
       privileged: false
       restart: unless-stopped
       volumes:
-        - /proc:/host/proc:ro
-        - /sys:/host/sys:ro
-        - /:/rootfs:ro
+        - ./node0/import:/import:ro
+      #deactivated for windows docker hosts
+      #  - /proc:/host/proc:ro
+      #  - /sys:/host/sys:ro
+      #  - /:/rootfs:ro
       ports:
         - "9100:9100"
       command:
-        - '--path.procfs=/host/proc'
-        - '--path.sysfs=/host/sys'
-        - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+        - '--collector.textfile.directory=/import'
+      # deactivated for windows docker hosts
+      #  - '--path.procfs=/host/proc'
+      #  - '--path.sysfs=/host/sys'
+      #  - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
 
   node1:
       user: $PGUSER
@@ -73,6 +78,14 @@ services:
       command:
         - '--collector.textfile.directory=/import'
 
+  node3:
+      user: $PGUSER
+      build: ./node3CustomExporter
+      privileged: false
+      ports:
+        - "9101:9100"
+
+      
   alertmanager:
       user: $PGUSER
       image: prom/alertmanager:latest
