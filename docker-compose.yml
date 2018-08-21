@@ -77,6 +77,14 @@ services:
       command:
         - '--collector.textfile.directory=/import'
 
+  node3:
+      user: $PGUSER
+      build: ./node3CustomExporter
+      privileged: false
+      ports:
+        - "9101:8000"
+
+      
   alertmanager:
       user: $PGUSER
       image: prom/alertmanager:latest
