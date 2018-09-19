@@ -8,6 +8,7 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus-central/etc/prometheus:/etc/prometheus
+      - ./prometheus-central/db:/prometheus
     #command:
     #  - '--web.enable-lifecycle'
     links:
