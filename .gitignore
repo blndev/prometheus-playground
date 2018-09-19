@@ -5,6 +5,7 @@ grafana/var/lib/grafana/png/*
 
 # Prometheus Database
 */prometheus/prometheus/*
+prometheus-central/db/*
 
 mailserver/
 
