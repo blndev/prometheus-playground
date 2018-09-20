@@ -1,7 +1,7 @@
 # my global config
 global:
-  scrape_interval:     2m # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 2m # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_interval:     30s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 30s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -29,7 +29,8 @@ scrape_configs:
     metrics_path: /federate
     params:
       match[]:
-        - '{__name__=~"^job:.*"}'   # Request all job-level time series
+        #curl -G --data-urlencode 'match[]={job=~".+", job!="kubernetes-nodes"}' http://your-url.example.com/federate
+        - '{job=~".+"}'   # Request all job-level time series
     static_configs:
       - targets:
         - dc1-prometheus:9090
