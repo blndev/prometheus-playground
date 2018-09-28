@@ -4,7 +4,8 @@ grafana/var/lib/grafana/plugins/*
 grafana/var/lib/grafana/png/*
 
 # Prometheus Database
-prometheus/prometheus/*
+*/prometheus/prometheus/*
+prometheus-central/db/*
 
 mailserver/
 
@@ -18,4 +19,3 @@ node0/import/
 *.bak
 *.tmp
 *.copy
-

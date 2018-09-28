@@ -7,15 +7,43 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus/etc/prometheus:/etc/prometheus
-      - ./prometheus/prometheus:/prometheus
+      - ./prometheus-central/etc/prometheus:/etc/prometheus
+      - ./prometheus-central/db:/prometheus
     #command:
     #  - '--web.enable-lifecycle'
     links:
-      - node0
-      - node1
-      - node2
-      - node3
+      - dc1-prometheus
+      - dc2-prometheus
+      - alertmanager
+
+  dc1-prometheus:
+    user: $PGUSER
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./datacenter-1/prometheus/etc/prometheus:/etc/prometheus
+      - ./datacenter-1/prometheus/prometheus:/prometheus
+    #command:
+    #  - '--web.enable-lifecycle'
+    links:
+      - dc1-node0
+      - dc1-node1
+      - alertmanager
+
+  dc2-prometheus:
+    user: $PGUSER
+    image: prom/prometheus:latest
+    ports:
+      - "9092:9090"
+    volumes:
+      - ./datacenter-2/prometheus/etc/prometheus:/etc/prometheus
+      - ./datacenter-2/prometheus/prometheus:/prometheus
+    #command:
+    #  - '--web.enable-lifecycle'
+    links:
+      - dc2-node2
+      - dc2-node3
       - alertmanager
 
   grafana:
@@ -25,6 +53,8 @@ services:
       - "3000:3000"
     links:
       - prometheus
+      - dc1-prometheus
+      - dc2-prometheus
       - mailserver
 
     volumes:
@@ -32,7 +62,7 @@ services:
       - ./grafana/var/lib/grafana:/var/lib/grafana
       - ./grafana/data:/data
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-azure-monitor-datasource, grafana-kubernetes-app
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-azure-monitor-datasource,grafana-kubernetes-app,jdbranham-diagram-panel,snuids-trafficlights-panel,btplc-trend-box-panel
       - GF_PATH_DATA=/data
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -42,13 +72,13 @@ services:
       - GF_SMTP_enabled=false
       - GF_SMTP_host=postfix
 
-  node0:
+  dc1-node0:
       user: $PGUSER
       image: quay.io/prometheus/node-exporter:latest
       privileged: false
       restart: unless-stopped
       volumes:
-        - ./node0/import:/import:ro
+        - ./datacenter-1/node0/import:/import:ro
       #deactivated for windows docker hosts
       #  - /proc:/host/proc:ro
       #  - /sys:/host/sys:ro
@@ -62,30 +92,30 @@ services:
       #  - '--path.sysfs=/host/sys'
       #  - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
 
-  node1:
+  dc1-node1:
       user: $PGUSER
       image: prom/node-exporter:latest
       volumes:
-        - ./node1/import:/import:ro
+        - ./datacenter-1/node1/import:/import:ro
       command:
         - '--collector.textfile.directory=/import'
 
-  node2:
+  dc2-node2:
       user: $PGUSER
       image:  quay.io/prometheus/node-exporter:latest
       volumes:
-        - ./node2/import:/import:ro
+        - ./datacenter-2/node2/import:/import:ro
       command:
         - '--collector.textfile.directory=/import'
 
-  node3:
+  dc2-node3:
       user: $PGUSER
-      build: ./node3CustomExporter
+      build: ./datacenter-2/node3CustomExporter
       privileged: false
       ports:
         - "9101:9100"
 
-      
+
   alertmanager:
       user: $PGUSER
       image: prom/alertmanager:latest

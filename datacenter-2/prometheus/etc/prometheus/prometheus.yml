@@ -3,6 +3,8 @@ global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
+  external_labels:
+    datacenter: 2
 
 # Alertmanager configuration
 alerting:
@@ -28,15 +30,11 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9090']
 
-  - job_name: 'simple nodes'
+  - job_name: 'core nodes'
     static_configs:
-    - targets: ['node1:9100']
-    - targets: ['node2:9100']
+    - targets: ['dc2-node2:9100']
+    - targets: ['dc2-node4:9100'] #not existing. it will always fire a node down
 
-  - job_name: 'node0-localhost'
+  - job_name: 'python-exporter'
     static_configs:
-    - targets: ['node0:9100']
-
-  - job_name: 'python-exporter-node3'
-    static_configs:
-    - targets: ['node3:9100']
+    - targets: ['dc2-node3:9100']
