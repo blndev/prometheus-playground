@@ -97,6 +97,8 @@ services:
       image: prom/node-exporter:latest
       volumes:
         - ./datacenter-1/node1/import:/import:ro
+      ports:
+        - "9101:9100"
       command:
         - '--collector.textfile.directory=/import'
 
@@ -105,6 +107,8 @@ services:
       image:  quay.io/prometheus/node-exporter:latest
       volumes:
         - ./datacenter-2/node2/import:/import:ro
+      ports:
+        - "9102:9100"
       command:
         - '--collector.textfile.directory=/import'
 
@@ -113,7 +117,7 @@ services:
       build: ./datacenter-2/node3CustomExporter
       privileged: false
       ports:
-        - "9101:9100"
+        - "9103:9100"
 
 
   alertmanager:

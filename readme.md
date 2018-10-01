@@ -15,28 +15,37 @@ This repo contains a playground to evaluate different configs and behaviors of a
 It uses Prometheus Node Exporter to expose data, Prometheus Server to capture them, Alert Rules in prometheus to define critical states, an Alertmanager to receive these alerts and forward them as mail to a Webmailer.
 In addition there is a Grafana installed and connected as UI / Dashboard service.
 
+The environment is splitted into two datacenters. Each contains two nodes and a prometheus server.
+In addition there is a central prometheus instance which federates the data from the both datacenter prometheus servers.
+In grafana you can add all three servers as datasource.
+
 Credentials:
 On the WebMailer you can login with any email adress and any password. If there was an email received to this address, you will see it. Default Mail where Notofication are sended to is "admin@playground.local".
 
 On Grafana you can login by default with admin/admin.
 
+![assets/network.png](assets/network.png)
+
 ### Node Exporter
-We configured four nodes which will export data.Node0, Node1, Node2, Node3. Node0 is connected to your locale filesystem. Node1 and Node2 jsut running in docker and having the text exporter enabled for folder /node1/import and /node2/import. Node3 is a custome metric exporter written in python.
+We configured four nodes which will export data. Node0, Node1, Node2, Node3. Node0 is connected to your locale filesystem. Node1 and Node2 just running in docker and having the text exporter enabled for folder /node1/import and /node2/import. Node3 is a custome metric exporter written in python.
 Every file you put there with the extension .prom will be taken and published to prometheus.
 
-After starting the playground, you can reach node0 via http://localhost:9100/metrics and node3 via http://localhost:9101/metrics.
-Node2 and Node3 are not exposed.
+After starting the playground, you can reach
+* node0 via http://localhost:9100/metrics
+* node1 via http://localhost:9101/metrics
+* node2 via http://localhost:9102/metrics
+* node3 via http://localhost:9103/metrics.
 
-#### Node0 - Localhost Connect
+#### Node0
 In the docker-compose file, node0 is prepared to mount local dev and proc folders, to show loacal data. It's commented out to enable the playground also to run on docker for Windows.
 In addition you will find an "import" folder. Just put any *.prom file into it and the node will export it. The python script "consumptionExporter.py" create such an file via the PrometheusClient Libs. Just playaround with it.
 
-#### Node1-Node2 
+#### Node1-Node2
 These Nodes just running by default. They supporting also the *.prom files in the import directory. I use them to simulate erros like node down by just stopping them
-``docker-compose stop node2`` 
+``docker-compose stop node2``
 
 #### Node3 - Custom Exporter
-Instead of Node 0-2, where the iage is downloaded from Internet, the image of Node 3 will be build locally with the command 
+Instead of Node 0-2, where the image is downloaded from Internet, the image of Node 3 will be build locally with the command
 ``docker-compose build node3``
 
 This copies the sourcecode of node3 into an image and make it locally available.
@@ -48,13 +57,19 @@ Rebuild can be done by the build command above. To get the new image up and runn
 
 
 ### Prometheus
-This service is connected to all node exporters and to the Alertmanager.
+
+As writen in the summary, there are three prometheus instances. The central prometheus is federating all datacenter prometheus instances in a 15 min. interval.
+All instances are connected to the alert manager.
+
 Alerts are configured in /etc/prometheus/alertrules/* . The rule - files must be enabled in the prometheus.yml on folder higher.
 
 If an alert goes to a hard state. it will be send to the Alertmanager wich than can group and forward them.
 
 To fire an alert just stop node 2 for some minutes.
 ``docker-compose stop node2``
+
+The Central Prometheus is reachable via http://localhost:9090/ the DC1 via http://localhost:9091 and DC2 as http://localhost:9092.
+
 
 ### Alertmanager
 The Alertmanager is configured to be triggered from prometheus.
@@ -80,6 +95,7 @@ When you delete the database and start the playground again, an empty db will be
 
 ### Mailserver
 To check notifications we have installed GreenMail as Mail Server (mailserver) and Roundcube as Frontend (Webmailer). The Mailserver is listen on POrt 3025 (SMTP and 3143 for IMAP). The Webmailer can be reached on Port 9080 via the Browser.
+This service is connected to all node exporters and to the Alertmanager.http://localhost:9080/
 The Login name is the username you specified in the notification.
 The Password is anything you type in.
 
@@ -116,7 +132,7 @@ To see how Prometheus is performing, you can use this Dashboard: http://localhos
 Additional Services:
 * http://localhost:9000/ to reach Prometheus
 * http://localhost:9100/metrics to reach Node 0 with local data export
-* http://localhost:9101/metrics to reach Node 3
+* http://localhost:9103/metrics to reach Node 3
 * http://localhost:9093/#/status for the alert manager
 * http://localhost:9080/ to reach the mailserver
 
@@ -131,10 +147,6 @@ $ docker-compose exec -u=$UID grafana bash
 ```
 Note: Some Containers supports only sh instead of bash.
 
-#### Simulate alertmanagers
-
-You can simply create an alert by shuting down one of the exporters like node 2
-with ```docker-compose stop node2```
 
 #### Reference Documentation
 
