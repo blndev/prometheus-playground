@@ -36,6 +36,8 @@ After starting the playground, you can reach
 * node2 via http://localhost:9102/metrics
 * node3 via http://localhost:9103/metrics.
 
+There is a Node4 configured in DC2. Reason for that is to produce a permanent node down failure for testing purposes.
+
 #### Node0
 In the docker-compose file, node0 is prepared to mount local dev and proc folders, to show loacal data. It's commented out to enable the playground also to run on docker for Windows.
 In addition you will find an "import" folder. Just put any *.prom file into it and the node will export it. The python script "consumptionExporter.py" create such an file via the PrometheusClient Libs. Just playaround with it.
