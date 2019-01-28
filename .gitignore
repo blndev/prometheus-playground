@@ -19,3 +19,4 @@ node0/import/
 *.bak
 *.tmp
 *.copy
+prometheus/prometheus
