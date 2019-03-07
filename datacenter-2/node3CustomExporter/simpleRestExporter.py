@@ -3,10 +3,11 @@ import random
 import time
 
 # Create a metric to track time spent for a function and count of requests made.
-REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request', ['method'])
 
+request1 = REQUEST_TIME.labels(method='request1')
 # Decorate function with metric.
-@REQUEST_TIME.time()
+@request1.time()
 def process_request(t):
     """A dummy function that takes some time."""
     # we could also execute an external task liek fetching a url
