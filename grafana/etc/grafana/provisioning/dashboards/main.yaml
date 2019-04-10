@@ -1,0 +1,29 @@
+apiVersion: 1
+
+providers:
+- name: 'default'
+  orgId: 1
+  folder: ''
+  type: file
+  disableDeletion: false
+  updateIntervalSeconds: 15 
+  options:
+    path: /var/lib/grafana/dashboards/root
+
+- name: 'cluster'
+  orgId: 1
+  folder: 'Cluster'
+  type: file
+  disableDeletion: false
+  updateIntervalSeconds: 15 
+  options:
+    path: /var/lib/grafana/dashboards/cluster
+
+- name: 'os'
+  orgId: 1
+  folder: 'Operating System'
+  type: file
+  disableDeletion: false
+  updateIntervalSeconds: 15 
+  options:
+    path: /var/lib/grafana/dashboards/operatingsystem
