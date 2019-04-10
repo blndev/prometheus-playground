@@ -140,7 +140,7 @@ Additional Services:
 * http://localhost:9093/#/status for the alert manager
 * http://localhost:9080/ to reach the mailserver
 
-To reload a Prometheus configuration, please use the folowing command:
+To reload a Prometheus configuration, please use the following command:
 ```bash
 docker-compose restart prometheus
 ```
