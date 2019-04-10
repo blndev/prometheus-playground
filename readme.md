@@ -132,7 +132,9 @@ To see how Prometheus is performing, you can use this Dashboard: http://localhos
 
 
 Additional Services:
-* http://localhost:9000/ to reach Prometheus
+* http://localhost:9090/ to reach Prometheus Central
+* http://localhost:9091/ to reach Prometheus DC1
+* http://localhost:9092/ to reach Prometheus DC2
 * http://localhost:9100/metrics to reach Node 0 with local data export
 * http://localhost:9103/metrics to reach Node 3
 * http://localhost:9093/#/status for the alert manager
