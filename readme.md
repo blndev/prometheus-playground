@@ -118,7 +118,7 @@ docker-compose config
 # before the first start you should export the UID to get write access on fs
 export PGUSER=$UID
 # start the services
-docker-copmpose up
+docker-compose up
 ````
 
 As alternate (and simpler) way is to use the ``createPlayground.sh`` script,
