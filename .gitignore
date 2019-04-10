@@ -20,3 +20,4 @@ node0/import/
 *.tmp
 *.copy
 prometheus/prometheus
+grafana/var/lib/grafana/grafana.db
